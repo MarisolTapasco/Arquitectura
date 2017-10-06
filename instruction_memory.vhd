@@ -57,7 +57,7 @@ architecture Behavioral of instruction_memory is
 					
 	signal rdata: std_logic_vector(31 downto 0);
 begin
-	rdata <= ROM(conv_integer(address));
+	rdata <= ROM(conv_integer(address(5 downto 0)));
    process (rst)
 		begin
          if (rst = '1') then
