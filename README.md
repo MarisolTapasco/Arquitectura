@@ -1,2 +1,2 @@
 # Arquitectura
-Procesadores arquitectura
+Procesadores arquitectura Marisol Tapasco, Juan David Lopez
