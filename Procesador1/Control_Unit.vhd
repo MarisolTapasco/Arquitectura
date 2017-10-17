@@ -19,8 +19,6 @@ architecture Behavioral of Control_Unit is
 --"000111" XNOR
 --"000000" ADD
 --"000100" SUB
---"100101" SLL
---"100110" SLR
 
 begin
 
@@ -36,8 +34,6 @@ begin
 			when "000111" => Aluop <= "000111";
 			when "000000" => Aluop <= "000000";
 			when "000100" => Aluop <= "000100";
-			when "100101" => Aluop <= "100101";
-			when "100110" => Aluop <= "100110";
 			when others => Aluop <= "111111";
 		end case;
 	end if;
