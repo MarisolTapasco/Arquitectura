@@ -61,7 +61,7 @@ begin
          if (rst = '1') then
 				instruction <="00000000000000000000000000000000";
 			else 
-				instruction <= ROM(conv_integer(address(5 downto 0)));
+				instruction <= ROM(conv_integer(address(5 downto 0)));  -- RETORNA LA POSICION EN LA MATRIZ DE CADA INSTRUCCION 
          end if;
     end process;
 end Behavioral;
