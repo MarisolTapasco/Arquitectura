@@ -62,10 +62,10 @@ begin
 	  result <= std_logic_vector(unsigned(op1) - unsigned(op2)) ;	  --SUB
 	
 	 when "000101" =>
-	  result <= op1 AND NOT(op2);				                          --ANDN
+	  result <= op1 NAND op2;				                          --NAND
 
 	 when "000110" =>
-	  result <= op1 OR NOT(op2);		                                --ORN
+	  result <= op1 NOR op2;		                                          --NOR
 	
 	 when "000111" =>
 	  result <= op1 XNOR op2 ;				                             --XNOR	
