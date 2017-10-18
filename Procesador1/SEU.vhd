@@ -30,12 +30,10 @@ architecture Behavioral of SEU is
 begin
 process(imm13)
    begin 
-	if(imm13(12) = '1')then 
-	   out32(12 downto 0) <= imm13;
-		out32(31 downto 13) <= (others=>'1');
-	else 
-	   out32(12 downto 0) <= imm13;
-		out32(31 downto 0) <= (others=>'0');
+	if (imm13(12) = '0') then       
+	    out32 <= "0000000000000000000" & imm13;
+	else       
+	    out32<= "1111111111111111111" & imm13;
 	end if;
 end process;
 
