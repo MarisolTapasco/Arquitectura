@@ -30,7 +30,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Union2 is
-    Port ( rst : in  STD_LOGIC;
+    Port ( rest : in  STD_LOGIC;
            registerIn : in  STD_LOGIC_VECTOR (31 downto 0);
            aluResult : out  STD_LOGIC_VECTOR (31 downto 0));
 end Union2;
@@ -99,7 +99,7 @@ begin
 	);
 	
 	Inst_RegisterFile: RegisterFile PORT MAP(
-		rst => rst,
+		rst => rest,
 		rs1 => registerIn(18 downto 14),
 		rs2 => registerIn(4 downto 0),
 		rd => registerIn(29 downto 25),
@@ -125,6 +125,6 @@ begin
 		Op3 => registerIn(24 downto 19),
 		Aluop => outAluop
 	);
-	
+	aluResult<=outResult;
 
 end Behavioral;
