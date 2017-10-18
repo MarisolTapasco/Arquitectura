@@ -43,21 +43,25 @@ end RegisterFile;
 
 architecture Behavioral of RegisterFile is
 type Register_File is array (31 downto 0) of std_logic_vector(31 downto 0);
-signal registros: Register_file := (others => "00000000000000000000000000000000");
+signal registros: Register_file ;
 
 begin
 process(rs1,rs2,rd,dwr,rst)
 	begin
 		if(rst ='1') then
 			registros <= (others => "00000000000000000000000000000000");
-			crs1 <= (others => '0');
-			crs2 <= (others => '0');
+			crs1 <= "00000000000000000000000000000000";
+			crs2 <= "00000000000000000000000000000000";
 		else
 		   if(rd /= "000000") then
 				registros(conv_integer(rd)) <= dwr;
-			end if;
+				crs1 <= registros(conv_integer(rs1));
+				crs2 <= registros(conv_integer(rs2));				
+				
+			else
 				crs1 <= registros(conv_integer(rs1));
 				crs2 <= registros(conv_integer(rs2));
+			end if;
 		end if;
 end process;
 end Behavioral;
