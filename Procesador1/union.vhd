@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity union is
     Port ( rst : in  STD_LOGIC;
            clk : in  STD_LOGIC;
-           instruction : out  STD_LOGIC_VECTOR (31 downto 0));
+           address : out  STD_LOGIC_VECTOR (31 downto 0));
 end union;
 
 architecture Behavioral of union is
@@ -30,6 +30,13 @@ architecture Behavioral of union is
 --senales
 signal auxdataOut1,auxdataOut2, auxdataSum:std_logic_vector(31 downto 0);
 begin
+
+	Inst_Sumador: Sumador PORT MAP(
+		In1 => "00000000000000000000000000000001",
+		In2 => auxdataOut2,
+		Out1 => auxdataSum
+	);
+	
 	Inst_Registro: Registro PORT MAP(
 		clk => clk,
 		rst => rst,
@@ -44,13 +51,9 @@ begin
 		dataOut => auxdataOut2
 	);
 	
-	Inst_Sumador: Sumador PORT MAP(
-		In1 => "00000000000000000000000000000001",
-		In2 => auxdataOut2,
-		Out1 => auxdataSum
-	);
+
 	
-	instruction <= auxdataOut2;
+	address <= auxdataOut2;
 
 end Behavioral;
 
