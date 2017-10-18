@@ -10,24 +10,30 @@ end Union1;
 
 architecture Behavioral of Union1 is
 
-	COMPONENT instruction_memory
+	COMPONENT union
 	PORT(
-		rst : IN std_logic;
-		address : IN std_logic_vector(31 downto 0);          
-		instruction : OUT std_logic_vector(31 downto 0)
+		  rst : IN std_logic;
+		  clk : IN std_logic;          
+		  address : OUT std_logic_vector(31 downto 0)
 		);
 	END COMPONENT;
 
-	COMPONENT union
+	COMPONENT instruction_memory
 	PORT(
-		rst : IN std_logic;
-		clk : IN std_logic;          
-		instruction : OUT std_logic_vector(31 downto 0)
+		  rst : IN std_logic;
+		  address : IN std_logic_vector(31 downto 0);          
+		  instruction : OUT std_logic_vector(31 downto 0)
 		);
-	END COMPONENT;
+	END COMPONENT;	
 	
-signal auxdataAdd: std_logic_vector(31 downto 0);
+signal auxdataAdd: std_logic_vector(31 downto 0):= (others=>'0');
 begin
+
+	Inst_union: union PORT MAP(
+		rst => rst,
+		clk => clk,
+		address => auxdataAdd
+	);
 
 	Inst_instruction_memory: instruction_memory PORT MAP(
 		rst => rst,
@@ -35,11 +41,7 @@ begin
 		instruction => instruction
 	);
 	
-	Inst_union: union PORT MAP(
-		rst => rst,
-		clk => clk,
-		instruction => auxdataAdd
-	);
+
 
 end Behavioral;
 

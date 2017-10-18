@@ -43,7 +43,7 @@ ARCHITECTURE behavior OF UnionTb IS
     PORT(
          rst : IN  std_logic;
          clk : IN  std_logic;
-         instruction : OUT  std_logic_vector(31 downto 0)
+         address : OUT  std_logic_vector(31 downto 0)
         );
     END COMPONENT;
     
@@ -53,7 +53,7 @@ ARCHITECTURE behavior OF UnionTb IS
    signal clk : std_logic := '0';
 
  	--Outputs
-   signal instruction : std_logic_vector(31 downto 0);
+   signal address : std_logic_vector(31 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
@@ -64,7 +64,7 @@ BEGIN
    uut: union PORT MAP (
           rst => rst,
           clk => clk,
-          instruction => instruction
+          address => address
         );
 
    -- Clock process definitions
