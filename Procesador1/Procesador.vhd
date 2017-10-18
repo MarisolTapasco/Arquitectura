@@ -47,7 +47,7 @@ architecture Behavioral of Procesador is
 
 	COMPONENT Union2
 	PORT(
-		rst : IN std_logic;
+		rest : IN std_logic;
 		registerIn : IN std_logic_vector(31 downto 0);          
 		aluResult : OUT std_logic_vector(31 downto 0)
 		);
@@ -58,7 +58,7 @@ SIGNAL outReg: STD_LOGIC_VECTOR(31 downto 0);
 begin
 
 	Inst_Union2: Union2 PORT MAP(
-		rst => rst,
+		rest => rst,
 		registerIn => outReg,
 		aluResult => result
 	);
