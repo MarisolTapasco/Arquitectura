@@ -56,7 +56,7 @@ architecture Behavioral of instruction_memory is
 	                              "10110000000100000010000000000100", "11000010000100000011111111111000", "11010100000001000000000000010001", "11100000001001001010000000101011");
 					
 begin
-   process (rst)
+   process (rst,address)
 		begin
          if (rst = '1') then
 				instruction <="00000000000000000000000000000000";
