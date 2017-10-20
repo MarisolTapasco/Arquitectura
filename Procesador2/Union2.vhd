@@ -41,7 +41,8 @@ architecture Behavioral of Union2 is
 	PORT(
 		Aluop : IN std_logic_vector(5 downto 0);
 		op1 : IN std_logic_vector(31 downto 0);
-		op2 : IN std_logic_vector(31 downto 0);          
+		op2 : IN std_logic_vector(31 downto 0);
+		c : IN std_logic;
 		result : OUT std_logic_vector(31 downto 0)
 		);
 	END COMPONENT;
@@ -81,6 +82,43 @@ architecture Behavioral of Union2 is
 		out32 : OUT std_logic_vector(31 downto 0)
 		);
 	END COMPONENT;
+	
+	COMPONENT PsrModifier
+	PORT(
+		rst : IN std_logic;
+		crs1 : IN std_logic_vector(31 downto 0);
+		outMux : IN std_logic_vector(31 downto 0);
+		aluop : IN std_logic_vector(5 downto 0);
+		result : IN std_logic_vector(31 downto 0);          
+		nzvc : OUT std_logic_vector(3 downto 0)
+		);
+	END COMPONENT;
+	
+	COMPONENT Psr
+	PORT(
+		clk : IN std_logic;
+		rst : IN std_logic;
+		nzvc : IN std_logic_vector(3 downto 0);
+		ncwp : IN std_logic;          
+		cwp : OUT std_logic;
+		c : OUT std_logic
+		);
+	END COMPONENT;
+	
+	COMPONENT windowsManager
+	PORT(
+		rs1 : IN std_logic_vector(4 downto 0);
+		rs2 : IN std_logic_vector(4 downto 0);
+		rd : IN std_logic_vector(4 downto 0);
+		op : IN std_logic_vector(1 downto 0);
+		op3 : IN std_logic_vector(5 downto 0);
+		cwp : IN std_logic;          
+		ncwp: IN std_logic;
+		nrs1 : OUT std_logic_vector(5 downto 0);
+		nrs2 : OUT std_logic_vector(5 downto 0);
+		nrd : OUT std_logic_vector(5 downto 0)
+		);
+	END COMPONENT;	
 
 SIGNAL outAluop: STD_LOGIC_VECTOR(5 downto 0);
 SIGNAL outRs1: STD_LOGIC_VECTOR(31 downto 0);
@@ -100,9 +138,9 @@ begin
 	
 	Inst_RegisterFile: RegisterFile PORT MAP(
 		rst => rest,
-		rs1 => registerIn(18 downto 14),
-		rs2 => registerIn(4 downto 0),
-		rd => registerIn(29 downto 25),
+		rs1 => ,
+		rs2 => ,
+		rd => ,
 		dwr => outResult,
 		crs1 => outRs1,
 		crs2 => outRs2
@@ -117,6 +155,7 @@ begin
 		Aluop => outAluop,
 		op1 => outRs1,
 		op2 => outMuxx,
+		c => ,
 		result => outResult
 	);
 	
@@ -126,5 +165,36 @@ begin
 		Aluop => outAluop
 	);
 	aluResult<=outResult;
+	
+	Inst_PsrModifier: PsrModifier PORT MAP(
+		rst => rst,
+		crs1 => outRs1,
+		outMux => outMuxx,
+		aluop => outAluop,
+		result => outResult,
+		nzvc => 
+	);
+	
+	Inst_Psr: Psr PORT MAP(
+		clk => clk,
+		rst => rst,
+		nzvc => ,
+		ncwp => ,
+		cwp => ,
+		c => 
+	);
+	
+	Inst_windowsManager: windowsManager PORT MAP(
+		rs1 => registerIn(18 downto 14),
+		rs2 => registerIn(4 downto 0),
+		rd => registerIn(29 downto 25),
+		Op => registerIn(31 downto 30),
+		Op3 => registerIn(24 downto 19),
+		cwp => ,
+		ncwp => ,
+		nrs1 => ,
+		nrs2 => ,
+		nrd => 
+	);
 
 end Behavioral;
