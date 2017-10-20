@@ -35,13 +35,14 @@ entity ALU is
     Port ( Aluop: in std_logic_vector (5 downto 0);
 	        op1 : in  std_logic_vector (31 downto 0);
            op2 : in  std_logic_vector (31 downto 0);
+			  c: in std_logic;
            result : out  std_logic_vector (31 downto 0));
 end ALU;
 
 architecture Behavioral of ALU is
 
 begin
-process (Aluop,op1,op2)
+process (Aluop,op1,op2, c)
 
 begin
 	case Aluop is
@@ -78,13 +79,13 @@ begin
 		when "010111" => 
 			result <= std_logic_vector((op1) xnor (op2)); 				     --XNORcc
 		when "001000" => 
-			result <= std_logic_vector((op1) + (op2)+C); 					  --ADDX
+			result <= std_logic_vector((op1) + (op2)+c); 					  --ADDX
 		when "001100" => 
-			result <= std_logic_vector((op1) - (op2)-C); 					  --SUBx
+			result <= std_logic_vector((op1) - (op2)-c); 					  --SUBx
 		when "011000" => 
-			result <= std_logic_vector((op1) + (op2)+C); 					  --ADDxcc
+			result <= std_logic_vector((op1) + (op2)+c); 					  --ADDxcc
 		when "011100" => 
-			result <= std_logic_vector((op1) - (op2)-C); 					  --SUBxcc
+			result <= std_logic_vector((op1) - (op2)-c); 					  --SUBxcc
 	
 	 when others =>
 	  result <="00000000000000000000000000000000";
