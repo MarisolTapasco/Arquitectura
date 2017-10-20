@@ -42,7 +42,7 @@ entity RegisterFile is
 end RegisterFile;
 
 architecture Behavioral of RegisterFile is
-type Register_File is array (31 downto 0) of std_logic_vector(31 downto 0);
+type Register_File is array (39 downto 0) of std_logic_vector(31 downto 0);
 signal registros: Register_file ;
 
 begin
