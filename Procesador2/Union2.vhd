@@ -30,7 +30,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Union2 is
-    Port ( rest : in  STD_LOGIC;
+    Port ( clk  : in  STD_LOGIC;
+	        rest : in  STD_LOGIC;
            registerIn : in  STD_LOGIC_VECTOR (31 downto 0);
            aluResult : out  STD_LOGIC_VECTOR (31 downto 0));
 end Union2;
@@ -67,9 +68,9 @@ architecture Behavioral of Union2 is
 	COMPONENT RegisterFile
 	PORT(
 		rst : IN std_logic;
-		rs1 : IN std_logic_vector(4 downto 0);
-		rs2 : IN std_logic_vector(4 downto 0);
-		rd : IN std_logic_vector(4 downto 0);
+		rs1 : IN std_logic_vector(5 downto 0);
+		rs2 : IN std_logic_vector(5 downto 0);
+		rd : IN std_logic_vector(5 downto 0);
 		dwr : IN std_logic_vector(31 downto 0);          
 		crs1 : OUT std_logic_vector(31 downto 0);
 		crs2 : OUT std_logic_vector(31 downto 0)
@@ -113,7 +114,7 @@ architecture Behavioral of Union2 is
 		op : IN std_logic_vector(1 downto 0);
 		op3 : IN std_logic_vector(5 downto 0);
 		cwp : IN std_logic;          
-		ncwp: IN std_logic;
+		ncwp:  OUT std_logic;
 		nrs1 : OUT std_logic_vector(5 downto 0);
 		nrs2 : OUT std_logic_vector(5 downto 0);
 		nrd : OUT std_logic_vector(5 downto 0)
@@ -126,6 +127,13 @@ SIGNAL outRs2: STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL outMuxx: STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL outSeu: STD_LOGIC_VECTOR(31 downto 0);
 SIGNAL outResult: STD_LOGIC_VECTOR(31 downto 0);
+SIGNAL aux_nrs1 : STD_LOGIC_VECTOR(5 downto 0);
+SIGNAL aux_nrs2 : STD_LOGIC_VECTOR(5 downto 0);
+SIGNAL aux_nrd : STD_LOGIC_VECTOR(5 downto 0); 
+SIGNAL aux_c : STD_LOGIC;
+SIGNAL aux_nzvc : STD_LOGIC_VECTOR(3 downto 0);
+SIGNAL aux_ncwp : STD_LOGIC;
+SIGNAL aux_cwp : STD_LOGIC;
 
 begin
 
@@ -138,9 +146,9 @@ begin
 	
 	Inst_RegisterFile: RegisterFile PORT MAP(
 		rst => rest,
-		rs1 => ,
-		rs2 => ,
-		rd => ,
+		rs1 => aux_nrs1,
+		rs2 => aux_nrs2,
+		rd =>  aux_nrd,
 		dwr => outResult,
 		crs1 => outRs1,
 		crs2 => outRs2
@@ -155,7 +163,7 @@ begin
 		Aluop => outAluop,
 		op1 => outRs1,
 		op2 => outMuxx,
-		c => ,
+		c => aux_c,
 		result => outResult
 	);
 	
@@ -167,21 +175,21 @@ begin
 	aluResult<=outResult;
 	
 	Inst_PsrModifier: PsrModifier PORT MAP(
-		rst => rst,
+		rst => rest,
 		crs1 => outRs1,
 		outMux => outMuxx,
 		aluop => outAluop,
 		result => outResult,
-		nzvc => 
+		nzvc => aux_nzvc  
 	);
 	
 	Inst_Psr: Psr PORT MAP(
 		clk => clk,
-		rst => rst,
-		nzvc => ,
-		ncwp => ,
-		cwp => ,
-		c => 
+		rst => rest,
+		nzvc => aux_nzvc,
+		ncwp => aux_ncwp,
+		cwp => aux_cwp,
+		c => aux_c
 	);
 	
 	Inst_windowsManager: windowsManager PORT MAP(
@@ -190,11 +198,11 @@ begin
 		rd => registerIn(29 downto 25),
 		Op => registerIn(31 downto 30),
 		Op3 => registerIn(24 downto 19),
-		cwp => ,
-		ncwp => ,
-		nrs1 => ,
-		nrs2 => ,
-		nrd => 
+		cwp =>  aux_cwp,
+		ncwp => aux_ncwp,
+		nrs1 => aux_nrs1,
+		nrs2 => aux_nrs2,
+		nrd =>  aux_nrd
 	);
 
 end Behavioral;

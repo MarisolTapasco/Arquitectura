@@ -41,7 +41,7 @@ end Psr;
 architecture Behavioral of Psr is
 
 begin
-process(nzvc,clk,rst, ncwp)
+process(nzvc,clk,rst,ncwp)
 	begin
 		if(rst = '1')then
 			cwp <= '0';

@@ -20,7 +20,8 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std.all;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use ieee.numeric_std.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -90,7 +91,12 @@ begin
 			result <= std_logic_vector((op1) + (op2)+c); 					  --ADDxcc
 		when "011100" => 
 			result <= std_logic_vector((op1) - (op2)-c); 					  --SUBxcc
-	
+
+		when "111100" =>                                                 --save
+		   result <= op1 + op2;
+						
+		when "111101" =>                                                 --restore
+         result <= op1 + op2;	
 	 when others =>
 	  result <="00000000000000000000000000000000";
 
