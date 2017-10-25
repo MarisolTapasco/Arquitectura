@@ -35,7 +35,8 @@ entity Psr is
            nzvc : in  STD_LOGIC_VECTOR (3 downto 0);
            ncwp : in  STD_LOGIC;
            cwp : out  STD_LOGIC;
-           c : out  STD_LOGIC);
+           c : out  STD_LOGIC;
+	   icc: out STD_LOGIC_VECTOR(3 downto 0));
 end Psr;
 
 architecture Behavioral of Psr is
@@ -46,10 +47,12 @@ process(nzvc,clk,rst,ncwp)
 		if(rst = '1')then
 			cwp <= '0';
 			c <= '0';
+			icc <= "0000";
 		else
 			if(rising_edge(clk))then
 				cwp <= ncwp;
 				c <= nzvc(0);
+				icc <= nzvc;
 			end if;
 		end if;
 end process;
